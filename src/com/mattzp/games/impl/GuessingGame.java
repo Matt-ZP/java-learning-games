@@ -1,18 +1,20 @@
-package com.mattzp.games;
+package com.mattzp.games.impl;
+
+import com.mattzp.games.Game;
 
 import java.util.Scanner;
 
-public class GuessingGame {
-    private static final String GUESS_PROMPT = "Enter your guess (1-100): ";
+public class GuessingGame implements Game {
+    private static final String GUESS_PROMPT = "\nEnter your guess (1-50): ";
     private static final String INVALID_RANGE = "Invalid range. You must enter an integer between 1 and 100";
-    private static final String INVALID_TYPE = "Invalid entry. Only integers between 1 and 100 are accepted";
+    private static final String INVALID_TYPE = "Invalid entry. Only integers between 1 and 50 are accepted";
     private static final String TOO_MANY_FALSE_ATTEMPTS = "You have entered too many false attempts";
     private static final String TOO_HIGH = "You guessed too high!";
     private static final String TOO_LOW = "You guessed too low!";
-    private static final String WIN = "Congratulations! You guessed correctly!";
-    private static final String PLAY_AGAIN = "Play another round? (y/n): ";
+    private static final String WIN = "\nCongratulations! You guessed correctly!";
+    private static final String PLAY_AGAIN = "\nPlay another round? (y/n): ";
     private static final String INVALID_INPUT = "Invalid input. Enter 'y' to play again or 'n' to exit.";
-    private static final String EXIT = "Thanks for playing. See you next time. Bye!";
+    private static final String RETURN_TO_LAUNCHER = "Thanks for playing.";
     private static final String WARNING =
             "You have entered incorrect data 5 times. 2 further incorrect types of input will cause game to exit";
 
@@ -20,19 +22,23 @@ public class GuessingGame {
     private int invalidStreak = 0;
     private boolean warned = false;
 
-    public void start() {
-        System.out.println("Welcome to The Guessing Game:\n5 guesses to win a prize!");
+    @Override
+    public String name() {
+        return "Guessing Game";
+    }
 
-        try (Scanner input = new Scanner(System.in)) {
+    @Override
+    public void start(Scanner input) {
+        System.out.println("\nWELCOME TO THE GUESSING GAME:\n5 guesses to win a prize!");
+
             while (true) {
                 boolean aborted = playRound(input);
                 if (aborted) break;
 
                 if (!playAgain(input)) break;
             }
-        }
 
-        System.out.println(EXIT);
+        System.out.println(RETURN_TO_LAUNCHER);
     }
 
     // returns true if the game should abort due to invalid-input policy
@@ -57,7 +63,7 @@ public class GuessingGame {
             totalGuesses++;
         }
 
-        System.out.println("Out of guesses! The number was: " + target);
+        System.out.println("\nOut of guesses! The number was: " + target);
 
         return false;
     }
@@ -76,7 +82,7 @@ public class GuessingGame {
 
             int guess = input.nextInt();
 
-            if (guess < 1 || guess > 100) {
+            if (guess < 1 || guess > 50) {
                 System.out.println(INVALID_RANGE);
 
                 if (handleInvalidAttempt()) return -1;
@@ -136,7 +142,7 @@ public class GuessingGame {
     }
 
     private int generateTargetNumber() {
-        return (int) ((Math.random() * 100) + 1);
+        return (int) ((Math.random() * 50) + 1);
     }
 }
 
