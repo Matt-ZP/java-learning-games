@@ -26,3 +26,11 @@ More games will be added as I continue learning Java.
 ---
 
 ## Project Structure
+
+src/com/mattzp/games
+
+GameLauncher.java  
+Entry point that launches the games.
+
+GuessingGame.java  
+Console number guessing game with input validation.
